@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="LOREM IPSUM — a responsive school newsroom website mock-up with placeholder articles, editorial sections and article pages.">
+  <meta name="theme-color" content="#171c20">
+  <title>LOREM IPSUM | The Student Newsroom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#f8f7f3; --surface:#fff; --ink:#172027; --ink-soft:#394148;
+      --muted:#687076; --quiet:#889097; --line:#d7d8d6; --soft:#eeefeb;
+      --red:#b62f2a; --red-hover:#8f2220; --deep:#171c20; --white:#fff;
+      --ph:#d9d9d9; --ph-ink:#626262; --shadow:0 18px 45px rgba(18,22,26,.06);
+      --serif:'Newsreader',Georgia,'Times New Roman',serif;
+      --sans:'DM Sans',system-ui,sans-serif;
+      --display:'Barlow Condensed',Impact,sans-serif;
+    }
+    [data-theme='dark']{
+      --paper:#111619; --surface:#1a2125; --ink:#f3f0e9; --ink-soft:#c9cbca;
+      --muted:#a3aaa9; --quiet:#8c9494; --line:#394147; --soft:#222a2e;
+      --red:#e46c62; --red-hover:#f18d83; --deep:#0a0d0f;
+      --shadow:0 18px 45px rgba(0,0,0,.12);
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:95px}
+    body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    :focus-visible{outline:3px solid var(--red);outline-offset:4px}
+    ::selection{background:var(--red);color:white}
+    .skip{position:absolute;top:-70px;left:12px;background:var(--red);color:white;padding:10px 15px;z-index:1000}
+    .skip:focus{top:10px}
+    .container{width:min(100% - 48px,1260px);margin:0 auto}
+    .site-top{background:var(--deep);color:#d7ddde;border-bottom:1px solid #374045}
+    .site-top .container{min-height:40px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .utility-left,.utility-right{display:flex;align-items:center;gap:15px}
+    .utility-label{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    .utility-muted{color:#aab4b7;font-size:11px;letter-spacing:.05em}
+    .utility-line{height:11px;width:1px;background:#505c61}
+    .demo-chip{display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:10px;font-weight:800;letter-spacing:.12em}
+    .demo-chip::before{content:'';width:7px;height:7px;border-radius:50%;background:#e8685e}
+    .masthead{background:var(--surface);border-bottom:1px solid var(--line)}
+    .masthead .container{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;padding:25px 0 23px}
+    .mast-side{font-size:10px;line-height:1.7;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:var(--muted)}
+    .mast-side.right{text-align:right}
+    .brand{text-align:center;display:inline-block;white-space:nowrap}
+    .brand strong{font:900 clamp(42px,7.9vw,96px)/.82 var(--display);letter-spacing:-.045em;color:var(--ink)}
+    .brand em{color:var(--red);font-style:normal}
+    .brand .strap{display:block;margin-top:14px;font-size:9px;letter-spacing:.38em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+    .nav-wrap{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:90}
+    .nav-row{display:flex;align-items:center;justify-content:space-between;gap:22px;min-height:55px}
+    .nav-links{display:flex;align-items:stretch;gap:30px;min-height:55px}
+    .nav-links a{display:flex;align-items:center;position:relative;font-weight:800;font-size:12px;letter-spacing:.09em;text-transform:uppercase}
+    .nav-links a::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:transparent;transition:background .15s}
+    .nav-links a:hover,.nav-links a.active{color:var(--red)}
+    .nav-links a.active::after,.nav-links a:hover::after{background:var(--red)}
+    .nav-tools{display:flex;align-items:center;gap:10px}
+    .icon-button{display:grid;place-items:center;width:37px;height:37px;background:transparent;border:1px solid var(--line);color:var(--ink);font-size:16px}
+    .icon-button:hover{background:var(--soft)}
+    .menu-button{display:none}
+    .search-wrap{position:relative;display:flex;align-items:center}
+    .search-input{width:176px;min-height:37px;padding:8px 36px 8px 12px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:0;outline-offset:1px;font-size:12px}
+    .search-submit{position:absolute;right:0;top:0;width:36px;height:37px;border:0;background:transparent;color:var(--ink);font-size:16px}
+    .news-flash{background:var(--paper);border-bottom:1px solid var(--line)}
+    .news-flash .container{min-height:48px;display:flex;align-items:center;gap:16px}
+    .flash-pill{background:var(--red);color:white;padding:6px 9px;font-size:10px;white-space:nowrap;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+    .news-flash p{font-family:var(--serif);font-size:15px;margin:0;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .news-flash a:hover{text-decoration:underline;text-decoration-color:var(--red)}
+    #app{min-height:65vh;outline:0}
+    .page{padding:44px 0 36px}
+    .section-eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--red);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800}
+    .section-eyebrow::before{content:'';width:22px;height:2px;background:currentColor}
+    .page-intro{border-bottom:3px double var(--ink);padding-bottom:19px;margin-bottom:30px}
+    .page-intro-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .page-intro h1,.section-header h2{font:700 clamp(34px,5.2vw,63px)/.97 var(--serif);letter-spacing:-.035em;margin:12px 0 4px}
+    .page-intro p{margin:10px 0 0;color:var(--muted);font-size:14px}
+    .edition-index{font-size:10px;letter-spacing:.12em;color:var(--quiet);font-weight:800;text-transform:uppercase}
+    .home-top{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,.75fr) minmax(0,.62fr);gap:26px;align-items:start}
+    .lead-story{padding-right:26px;border-right:1px solid var(--line)}
+    .story-image{display:block;overflow:hidden;background:var(--ph)}
+    .story-image:hover .placeholder{background:#cecece}
+    .placeholder{background:var(--ph);color:var(--ph-ink);display:flex;align-items:center;justify-content:center;width:100%;height:100%;aspect-ratio:var(--ratio,4/3);font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;transition:background .2s}
+    .placeholder span{display:inline-block;border:1px solid rgba(90,90,90,.28);padding:8px 11px}
+    .media-portrait .placeholder{aspect-ratio:4/3}
+    .media-wide .placeholder{aspect-ratio:16/10}
+    .media-squarish .placeholder{aspect-ratio:1/1}
+    .media-banner .placeholder{aspect-ratio:1550/130}
+    .media-hero .placeholder{aspect-ratio:16/9}
+    .story-kicker{display:block;color:var(--red);font-size:10px;text-transform:uppercase;letter-spacing:.16em;font-weight:800;margin:17px 0 8px}
+    .lead-story h2{font:600 clamp(35px,3.9vw,59px)/1.02 var(--serif);letter-spacing:-.036em;margin:0 0 12px}
+    .lead-story h2 a:hover,.story-card h3 a:hover,.side-story h3 a:hover,.feature-text h3 a:hover,.result-title a:hover{color:var(--red)}
+    .story-dek{font:400 16px/1.55 var(--serif);color:var(--ink-soft);margin:0 0 16px}
+    .byline{font-size:11px;font-weight:800;letter-spacing:.03em;color:var(--muted)}
+    .byline strong{color:var(--ink)}
+    .byline .dot{margin:0 6px;color:#a1a5a5}
+    .middle-stories{display:grid;gap:24px}
+    .side-story{padding-bottom:24px;border-bottom:1px solid var(--line)}
+    .side-story:last-child{border-bottom:0;padding-bottom:0}
+    .side-story h3{font:600 26px/1.08 var(--serif);letter-spacing:-.022em;margin:0 0 8px}
+    .side-story .story-kicker{margin:12px 0 6px}
+    .side-story .byline{font-size:10px}
+    .right-rail{background:var(--soft);padding:19px 18px 16px}
+    .rail-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 17px;padding-bottom:11px;border-bottom:2px solid var(--ink);font:800 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+    .rail-title span{color:var(--red);font-weight:800}
+    .brief-item{display:grid;grid-template-columns:25px 1fr;gap:10px;border-bottom:1px solid var(--line);padding:12px 0}
+    .brief-item:last-child{border:0;padding-bottom:2px}
+    .brief-no{font:800 23px/.9 var(--display);color:var(--red)}
+    .brief-item a{font:600 17px/1.15 var(--serif)}
+    .brief-item a:hover{color:var(--red)}
+    .brief-item small{display:block;margin-top:7px;color:var(--muted);font-size:10px;letter-spacing:.08em;font-weight:800}
+    .mid-rule{height:1px;background:var(--line);margin:36px 0}
+    .section-header{display:flex;align-items:flex-end;justify-content:space-between;border-top:3px solid var(--ink);padding-top:18px;margin-bottom:22px;gap:18px}
+    .section-header h2{font-size:38px;margin:3px 0 0}
+    .view-all{font-size:11px;letter-spacing:.11em;font-weight:800;text-transform:uppercase;color:var(--red);white-space:nowrap;margin-bottom:8px}
+    .view-all:hover{text-decoration:underline}
+    .news-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:36px}
+    .card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+    .story-card{min-width:0}
+    .story-card h3{font:600 24px/1.14 var(--serif);letter-spacing:-.02em;margin:0 0 9px}
+    .story-card .story-dek{font:400 14px/1.5 var(--serif);margin:0 0 9px}
+    .story-card .story-kicker{margin:13px 0 6px}
+    .most-read{border-top:3px solid var(--red);padding-top:13px}
+    .most-read h3{font:800 13px var(--sans);letter-spacing:.11em;text-transform:uppercase;margin:0 0 14px}
+    .most-read-item{display:flex;align-items:start;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}
+    .most-read-item b{font:800 32px/.86 var(--display);color:var(--red)}
+    .most-read-item a{font:600 17px/1.22 var(--serif)}
+    .most-read-item a:hover{color:var(--red)}
+    .promo{margin-top:24px;padding:19px;background:var(--deep);color:white}
+    .promo .promo-label{color:#f0a7a0;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+    .promo h4{font:600 25px/1.12 var(--serif);margin:10px 0 12px}
+    .promo p{font-size:12px;color:#c5cdcf;line-height:1.65;margin:0}
+    .front-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+    .front-feature{border:1px solid var(--line);background:var(--surface);min-width:0}
+    .front-feature .story-kicker,.front-feature h3,.front-feature .story-dek,.front-feature .byline{margin-left:17px;margin-right:17px}
+    .front-feature h3{font:600 27px/1.08 var(--serif);margin-top:0;margin-bottom:8px}
+    .front-feature .byline{margin-bottom:18px}
+    .category-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:30px;padding-bottom:30px;border-bottom:1px solid var(--line)}
+    .category-hero h2{font:600 clamp(32px,4vw,56px)/1.06 var(--serif);letter-spacing:-.033em;margin:10px 0 12px}
+    .category-hero .story-dek{font-size:17px}
+    .category-hero .story-kicker{margin-top:0}
+    .category-list{margin-top:27px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+    .category-list .story-card{padding-bottom:26px;border-bottom:1px solid var(--line)}
+    .section-columns{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:44px}
+    .sidebar-box{padding:20px;border:1px solid var(--line);background:var(--surface);margin-bottom:18px}
+    .sidebar-box h3{margin:0 0 14px;font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:10px}
+    .sidebar-box a{display:block;font:600 17px/1.25 var(--serif);padding:12px 0;border-bottom:1px solid var(--line)}
+    .sidebar-box a:last-child{border:0;padding-bottom:0}
+    .sidebar-box a:hover{color:var(--red)}
+    .breadcrumb{font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:23px}
+    .breadcrumb a:hover{text-decoration:underline;color:var(--red)}
+    .article-layout{display:grid;grid-template-columns:minmax(0,820px) minmax(0,280px);gap:52px;align-items:start}
+    .article h1{font:600 clamp(43px,5.3vw,76px)/.99 var(--serif);letter-spacing:-.045em;margin:9px 0 17px}
+    .article .story-dek{font-size:20px;line-height:1.43;max-width:720px}
+    .article-meta{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 0;margin:24px 0}
+    .article-tools{display:flex;gap:7px;align-items:center}
+    .article-tools button{border:1px solid var(--line);color:var(--ink);background:var(--surface);padding:9px 12px;font-size:11px;font-weight:800;letter-spacing:.04em}
+    .article-tools button:hover{border-color:var(--red);color:var(--red)}
+    .article-figure{margin:0 0 23px}
+    .figcaption{font-size:11px;color:var(--muted);border-bottom:1px solid var(--line);padding:10px 0}
+    .article-body{max-width:730px;margin:30px auto 40px;font:400 20px/1.68 var(--serif);color:var(--ink-soft)}
+    .article-body p{margin:0 0 22px}
+    .article-body p:first-child::first-letter{font:700 72px/.74 var(--serif);float:left;padding:11px 9px 1px 0;color:var(--red)}
+    .article-body blockquote{border-left:4px solid var(--red);padding:9px 0 9px 22px;margin:32px 0;font:600 31px/1.25 var(--serif);color:var(--ink)}
+    .article-nav{border-top:3px double var(--ink);padding-top:20px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-top:35px}
+    .article-nav a{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:10px 0}
+    .article-nav a:hover{color:var(--red)}
+    .article-nav a:last-child{text-align:right}
+    .article-nav .back-home{border:1px solid var(--ink);padding:10px 14px}
+    .article-nav .disabled{color:var(--quiet);opacity:.5;font-size:11px;text-transform:uppercase;font-weight:800;letter-spacing:.05em}
+    .reading-progress{height:3px;background:var(--red);width:0;position:fixed;top:0;left:0;z-index:200;transition:width .08s linear}
+    .search-header{display:flex;align-items:end;justify-content:space-between;gap:16px}
+    .search-count{color:var(--muted);font-size:12px;font-weight:700}
+    .search-result{display:grid;grid-template-columns:150px 1fr;gap:22px;border-bottom:1px solid var(--line);padding:21px 0}
+    .search-result:first-child{padding-top:0}
+    .search-result .story-kicker{margin:0 0 7px}
+    .result-title{font:600 27px/1.12 var(--serif);margin:0 0 6px}
+    .search-result p{margin:0;color:var(--muted);font:400 15px/1.5 var(--serif)}
+    .empty{background:var(--surface);border:1px solid var(--line);padding:35px;text-align:center;color:var(--muted)}
+    .empty strong{display:block;color:var(--ink);font:600 26px var(--serif);margin-bottom:7px}
+    .about-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:26px 0 36px;border-bottom:1px solid var(--line)}
+    .about-hero h2{font:600 clamp(32px,4vw,55px)/1.05 var(--serif);letter-spacing:-.033em;margin:12px 0}
+    .about-hero p{font:400 18px/1.55 var(--serif);color:var(--ink-soft)}
+    .about-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin:27px 0 45px}
+    .principle{border-top:3px solid var(--red);padding:14px 0}
+    .principle span{font:800 28px var(--display);color:var(--red)}
+    .principle h3{font:600 24px var(--serif);margin:7px 0}
+    .principle p{margin:0;font:400 14px/1.6 var(--serif);color:var(--muted)}
+    .site-footer{margin-top:55px;background:var(--deep);color:#e9eeef}
+    .footer-top{display:grid;grid-template-columns:1.65fr 1fr 1fr;gap:45px;padding:42px 0 35px}
+    .footer-brand{font:900 42px/.9 var(--display);letter-spacing:-.025em}
+    .footer-brand em{color:#e66a61;font-style:normal}
+    .footer-top p{max-width:350px;color:#aab6b9;font-size:12px;line-height:1.75}
+    .footer-top h4{font:800 11px var(--sans);text-transform:uppercase;letter-spacing:.15em;margin:0 0 14px;color:#fff}
+    .footer-top ul{list-style:none;margin:0;padding:0}
+    .footer-top li{margin-bottom:8px}
+    .footer-top li a{font-size:12px;color:#bfc8cb}
+    .footer-top li a:hover{color:#fff;text-decoration:underline}
+    .footer-bottom{border-top:1px solid #414b4f;padding:16px 0;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#9ca8ad;font-size:10px;letter-spacing:.06em}
+    .toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,30px);background:var(--deep);color:white;padding:12px 17px;border:1px solid #717b80;box-shadow:var(--shadow);z-index:500;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+    .toast.shown{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:1150px){
+      .home-top{grid-template-columns:minmax(0,1.5fr) minmax(0,.8fr)}
+      .right-rail{grid-column:1/-1;display:grid;grid-template-columns:140px repeat(3,1fr);gap:16px;align-items:start}
+      .right-rail .rail-title{border:0;padding:0;margin:0;display:block}
+      .brief-item{border:0;padding:0}
+      .lead-story{border-right:1px solid var(--line)}
+      .news-layout{grid-template-columns:minmax(0,1fr) 235px}
+      .nav-links{gap:21px}
+      .article-layout{grid-template-columns:minmax(0,1fr) 230px;gap:30px}
+    }
+    @media(max-width:900px){
+      .masthead .container{grid-template-columns:1fr;justify-items:center;padding:24px 0}
+      .mast-side{display:none}
+      .nav-row{flex-wrap:wrap;gap:8px;position:relative}
+      .menu-button{display:grid}
+      .nav-links{display:none;position:absolute;top:55px;left:0;right:0;padding:10px 24px 16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);flex-direction:column;gap:0;min-height:0}
+      .nav-links.open{display:flex}
+      .nav-links a{min-height:44px;border-bottom:1px solid var(--line)}
+      .nav-links a::after{display:none}
+      .nav-tools{margin-left:auto}
+      .search-input{width:210px}
+      .home-top{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
+      .lead-story{padding-right:20px}
+      .right-rail{grid-template-columns:1fr 1fr 1fr 1fr}
+      .news-layout,.section-columns,.article-layout{grid-template-columns:1fr}
+      .most-read{display:none}
+      .front-grid{grid-template-columns:repeat(2,1fr)}
+      .article-side{display:none}
+      .card-grid{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:650px){
+      .container{width:min(100% - 32px,1260px)}
+      .site-top .container{min-height:34px}
+      .utility-muted,.utility-line{display:none}
+      .masthead .container{padding:22px 0 19px}
+      .brand strong{font-size:clamp(46px,13vw,69px)}
+      .brand .strap{font-size:8px;letter-spacing:.24em;margin-top:9px}
+      .nav-row{min-height:53px}
+      .nav-links{top:53px}
+      .search-input{width:min(43vw,190px)}
+      .icon-button{width:35px;height:35px}
+      .news-flash .container{min-height:42px;gap:9px}
+      .news-flash p{font-size:13px}
+      .page{padding:27px 0 25px}
+      .page-intro{margin-bottom:22px}
+      .home-top{grid-template-columns:1fr;gap:22px}
+      .lead-story{border-right:0;padding-right:0;border-bottom:1px solid var(--line);padding-bottom:23px}
+      .lead-story h2{font-size:clamp(35px,10vw,49px)}
+      .middle-stories{grid-template-columns:1fr 1fr;gap:14px}
+      .side-story{border:0;padding:0}
+      .side-story h3{font-size:21px}
+      .side-story .story-kicker{font-size:9px}
+      .right-rail{display:block;padding:15px}
+      .right-rail .rail-title{border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:6px}
+      .brief-item{display:grid;padding:10px 0;border-bottom:1px solid var(--line)}
+      .card-grid,.front-grid,.category-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+      .story-card h3{font-size:21px}
+      .story-card .story-dek{display:none}
+      .category-hero,.about-hero{grid-template-columns:1fr;gap:19px}
+      .category-hero .story-image{order:-1}
+      .category-hero h2{font-size:38px}
+      .article h1{font-size:clamp(39px,11vw,60px)}
+      .article .story-dek{font-size:18px}
+      .article-body{font-size:19px;line-height:1.65}
+      .article-meta{align-items:flex-start}
+      .article-nav{grid-template-columns:1fr 1fr}
+      .article-nav .back-home{grid-column:1/-1;grid-row:1;text-align:center}
+      .article-nav a:last-child{text-align:right}
+      .search-result{grid-template-columns:110px 1fr;gap:14px}
+      .result-title{font-size:21px}
+      .about-principles{grid-template-columns:1fr;gap:10px}
+      .footer-top{grid-template-columns:1fr 1fr;gap:26px}
+      .footer-top .footer-about{grid-column:1/-1}
+    }
+    @media(max-width:480px){
+      .search-input{width:120px}
+      .card-grid,.front-grid,.category-list{grid-template-columns:1fr}
+      .middle-stories{grid-template-columns:1fr;gap:13px}
+      .side-story{display:grid;grid-template-columns:120px minmax(0,1fr);column-gap:13px;align-items:start;border-bottom:1px solid var(--line);padding-bottom:13px}
+      .side-story .story-image{grid-row:1/4}
+      .side-story .story-kicker{margin:0 0 3px}
+      .side-story h3{font-size:19px;margin-bottom:4px}
+      .side-story .byline{font-size:9px}
+      .story-card h3{font-size:23px}
+      .story-kicker{font-size:9px}
+      .section-header h2{font-size:32px}
+      .brand strong{font-size:43px}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+    @media print{
+      .site-top,.nav-wrap,.news-flash,.article-tools,.article-nav,.site-footer,.toast,.reading-progress{display:none!important}
+      body{background:white;color:black}.article-layout{display:block}.article{max-width:100%}
+      .placeholder{background:#d9d9d9!important;print-color-adjust:exact}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#app">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+  <header>
+    <div class="site-top">
+      <div class="container">
+        <div class="utility-left">
+          <span class="utility-label">The Lorem Ipsum Newsroom</span>
+          <span class="utility-line"></span>
+          <span class="utility-muted" id="todayDate">Month 00, 0000</span>
+        </div>
+        <div class="utility-right"><span class="demo-chip">DEMO EDITION</span></div>
+      </div>
+    </div>
+    <div class="masthead">
+      <div class="container">
+        <div class="mast-side">VOL. 00 · NO. 00<br>LOREM IPSUM DOLOR</div>
+        <a class="brand" href="#home" aria-label="Lorem Ipsum — Home">
+          <strong>LOREM <em>IPSUM</em></strong>
+          <span class="strap">Lorem ipsum dolor sit amet</span>
+        </a>
+        <div class="mast-side right">LOREM IPSUM<br>DOLOR SIT AMET</div>
+      </div>
+    </div>
+    <div class="nav-wrap">
+      <div class="container nav-row">
+        <button class="icon-button menu-button" id="menuToggle" type="button" aria-label="Open menu" aria-controls="primaryNav" aria-expanded="false">☰</button>
+        <nav class="nav-links" id="primaryNav" aria-label="Primary navigation"></nav>
+        <div class="nav-tools">
+          <form class="search-wrap" id="searchForm" role="search">
+            <input class="search-input" type="search" id="searchInput" placeholder="Search stories" aria-label="Search stories" maxlength="100">
+            <button class="search-submit" type="submit" aria-label="Search">⌕</button>
+          </form>
+          <button class="icon-button" type="button" id="themeToggle" aria-label="Switch color theme" title="Toggle light or dark theme">☾</button>
+        </div>
+      </div>
+    </div>
+    <div class="news-flash">
+      <div class="container"><span class="flash-pill">THE DESK</span><p><a href="#news-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt</a></p></div>
+    </div>
+  </header>
+  <main id="app" class="container" tabindex="-1"></main>
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <div class="footer-about">
+        <a class="footer-brand" href="#home">LOREM <em>IPSUM</em></a>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p style="color:#e8b2ad;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800">Mock-up website · Placeholder content only</p>
+      </div>
+      <div><h4>Sections</h4><ul id="footerSections"></ul></div>
+      <div><h4>Explore</h4><ul><li><a href="#home">Home</a></li><li><a href="#about">About Us</a></li><li><a href="#news-1">Lorem ipsum</a></li><li><a href="#feature-1">Dolor sit amet</a></li></ul></div>
+    </div>
+    <div class="container footer-bottom"><span>© <span id="year">2026</span> LOREM IPSUM. ALL RIGHTS RESERVED.</span><span>EDITORIAL WIREFRAME · 6 SECTIONS · 15 DEMO STORIES</span></div>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+const SECTIONS = [
+  {id:'news',label:'News',description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {id:'editorial',label:'Editorial',description:'Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {id:'feature',label:'Feature',description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut enim ad minim veniam.'},
+  {id:'sports',label:'Sports',description:'Lorem ipsum dolor sit amet, quis nostrud exercitation ullamco laboris nisi ut aliquip.'},
+  {id:'about',label:'About Us',description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.'}
+];
+const OPENING = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+const PARAGRAPHS = [
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent euismod, nunc in pulvinar egestas, metus magna viverra massa, sed elementum lorem erat ut nulla. Integer eu feugiat velit. Maecenas at odio vel arcu bibendum ullamcorper. Donec varius, purus nec vulputate gravida, nulla massa malesuada tellus, quis hendrerit eros dolor eget ipsum.',
+  'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
+  'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.',
+  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur vestibulum, risus vitae vehicula iaculis, lectus metus vulputate dui, et ultrices magna justo at nisi.',
+  'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit. Aliquam tincidunt mollis justo, at ultricies est porttitor ut. Suspendisse sed enim ut lacus laoreet dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.',
+  'Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus. Omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet.',
+  'Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer viverra fermentum tellus, sed sodales eros fringilla sed.'
+];
+const ARTICLE_DATA = {
+  news:[
+    ['Lorem ipsum dolor sit amet, consectetur adipiscing elit','Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.'],
+    ['Sed do eiusmod tempor incididunt ut labore','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'],
+    ['Ut enim ad minim veniam, quis nostrud exercitation','Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.']
+  ],
+  editorial:[
+    ['Lorem ipsum: quis nostrud exercitation ullamco laboris','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'],
+    ['Nemo enim ipsam voluptatem quia voluptas sit','Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.'],
+    ['Duis aute irure dolor in reprehenderit voluptate','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.']
+  ],
+  feature:[
+    ['Lorem ipsum dolor sit amet, sed do eiusmod tempor','Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'],
+    ['Quis autem vel eum iure reprehenderit','Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.'],
+    ['Neque porro quisquam est qui dolorem ipsum','Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit.']
+  ],
+  sports:[
+    ['Lorem ipsum consectetur adipiscing elit sed eiusmod','Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'],
+    ['Ut labore et dolore magna aliqua veniam','Lorem ipsum dolor sit amet, consectetur adipiscing elit, quis nostrud exercitation ullamco.'],
+    ['Excepteur sint occaecat cupidatat non proident','Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam.']
+  ],
+  about:[
+    ['Lorem ipsum dolor sit amet, consectetur adipiscing','Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.'],
+    ['Sed ut perspiciatis unde omnis iste natus','Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'],
+    ['Itaque earum rerum hic tenetur a sapiente','Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.']
+  ]
+};
+const STORIES = Object.entries(ARTICLE_DATA).flatMap(([section,rows]) => rows.map(([title,excerpt],i)=>({
+  id:`${section}-${i+1}`,section,n:i+1,title,excerpt,
+  byline:'Lorem Ipsum',date:'Month 00, 0000',reading:i===0?5:i===1?4:3
+})));
+const byId = id => STORIES.find(s=>s.id===id);
+const sectionName = id => SECTIONS.find(s=>s.id===id)?.label || 'News';
+const h = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const media=(ratio='4:3',cls='media-portrait')=>`<div class="story-image ${cls}" aria-label="Image placeholder ${h(ratio)}"><div class="placeholder"><span>${h(ratio)}</span></div></div>`;
+const linkMedia=(story,ratio='4:3',cls='media-portrait')=>`<a href="#${story.id}" aria-label="Read ${h(story.title)}">${media(ratio,cls)}</a>`;
+const kicker=section=>`<span class="story-kicker">${h(sectionName(section))} <span aria-hidden="true">/</span> Lorem ipsum</span>`;
+const byline=s=>`<div class="byline">By <strong>${h(s.byline)}</strong><span class="dot">•</span>${h(s.date)}<span class="dot">•</span>${s.reading} min read</div>`;
+const storyCard=(s,opts={})=>`<article class="story-card">${linkMedia(s,opts.ratio||'4:3',opts.mediaClass||'media-portrait')}${kicker(s.section)}<h3><a href="#${s.id}">${h(s.title)}</a></h3>${opts.dek===false?'':`<p class="story-dek">${h(s.excerpt)}</p>`}${byline(s)}</article>`;
+const sectionHeader=(name,href,subtitle='LOREM IPSUM')=>`<div class="section-header"><div><span class="section-eyebrow">${h(subtitle)}</span><h2>${h(name)}</h2></div><a class="view-all" href="${href}">View all <span aria-hidden="true">↗</span></a></div>`;
+const briefItem=(s,i)=>`<div class="brief-item"><span class="brief-no">${String(i+1).padStart(2,'0')}</span><div><a href="#${s.id}">${h(s.title)}</a><small>${h(sectionName(s.section)).toUpperCase()}</small></div></div>`;
+const mostRead=()=>`<aside class="most-read"><h3>Most Read</h3>${[byId('news-1'),byId('feature-2'),byId('sports-1'),byId('editorial-2')].map((s,i)=>`<div class="most-read-item"><b>${i+1}</b><a href="#${s.id}">${h(s.title)}</a></div>`).join('')}<div class="promo"><div class="promo-label">From the Desk</div><h4>Lorem ipsum dolor sit amet, consectetur adipiscing.</h4><p>${OPENING}</p></div></aside>`;
+function renderHome(){
+  const lead=byId('news-1'),minor=[byId('news-2'),byId('feature-1')];
+  const newsCards=[byId('news-2'),byId('news-3'),byId('feature-2')];
+  const categoryBlocks=['editorial','feature','sports'].map(section=>{
+    const arr=STORIES.filter(s=>s.section===section);
+    return `<section class="category-block">${sectionHeader(sectionName(section),`#${section}`,'From the Newsroom')}<div class="front-grid">${arr.map((s,i)=>`<article class="front-feature">${linkMedia(s,i===0?'4:3':'4:3')}${kicker(s.section)}<h3><a href="#${s.id}">${h(s.title)}</a></h3><p class="story-dek">${h(s.excerpt)}</p>${byline(s)}</article>`).join('')}</div></section>`;
+  }).join('<div class="mid-rule"></div>');
+  return `<div class="page home-page"><div class="page-intro"><div class="page-intro-top"><span class="section-eyebrow">The Latest Edition</span><span class="edition-index">LOREM IPSUM / VOL. 00 · ISSUE 00</span></div><h1>Inside the Newsroom.</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.</p></div>
+  <section class="home-top" aria-label="Top stories"><article class="lead-story">${linkMedia(lead,'16:10','media-wide')}${kicker(lead.section)}<h2><a href="#${lead.id}">${h(lead.title)}</a></h2><p class="story-dek">${h(lead.excerpt)}</p>${byline(lead)}</article>
+  <div class="middle-stories">${minor.map(s=>`<article class="side-story">${linkMedia(s)}${kicker(s.section)}<h3><a href="#${s.id}">${h(s.title)}</a></h3>${byline(s)}</article>`).join('')}</div>
+  <aside class="right-rail"><h2 class="rail-title">The Daily Brief <span>03</span></h2>${[byId('editorial-1'),byId('sports-2'),byId('feature-3')].map(briefItem).join('')}</aside></section>
+  <div class="mid-rule"></div><section>${sectionHeader('Latest Stories','#news','On the Record')}<div class="news-layout"><div class="card-grid">${newsCards.map(s=>storyCard(s)).join('')}</div>${mostRead()}</div></section><div class="mid-rule"></div>${categoryBlocks}</div>`;
+}
+function renderCategory(section){
+  const meta=SECTIONS.find(s=>s.id===section),arr=STORIES.filter(s=>s.section===section),lead=arr[0];
+  const picks=STORIES.filter(s=>s.section!==section).slice(0,4);
+  return `<div class="page category-page"><div class="page-intro"><div class="page-intro-top"><span class="section-eyebrow">The Newsroom / ${h(meta.label)}</span><span class="edition-index">03 STORIES</span></div><h1>${h(meta.label)}.</h1><p>${h(meta.description)}</p></div><div class="section-columns"><div><article class="category-hero"><div>${kicker(section)}<h2><a href="#${lead.id}">${h(lead.title)}</a></h2><p class="story-dek">${h(lead.excerpt)}</p>${byline(lead)}</div>${linkMedia(lead,'16:10','media-wide')}</article><div class="section-header"><div><span class="section-eyebrow">More from ${h(meta.label)}</span><h2>Latest Stories</h2></div></div><div class="category-list">${arr.slice(1).map(s=>storyCard(s)).join('')}</div></div><aside><div class="sidebar-box"><h3>Elsewhere in the Newsroom</h3>${picks.map(s=>`<a href="#${s.id}">${h(s.title)}</a>`).join('')}</div>${media('4:3')}</aside></div></div>`;
+}
+function renderAbout(){
+  const aboutStories=STORIES.filter(s=>s.section==='about');
+  return `<div class="page about-page"><div class="page-intro"><div class="page-intro-top"><span class="section-eyebrow">Beyond the Headlines</span><span class="edition-index">THE NEWSROOM</span></div><h1>About Us.</h1><p>${h(SECTIONS.find(s=>s.id==='about').description)}</p></div>
+  <div class="about-hero"><div><span class="section-eyebrow">Our Story</span><h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2><p>${OPENING} Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>${media('16:10','media-wide')}</div>
+  <div class="about-principles">${[['01','Lorem ipsum','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.'],['02','Dolor sit amet','Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.'],['03','Consectetur elit','Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.']].map(([n,title,copy])=>`<div class="principle"><span>${n}</span><h3>${title}</h3><p>${copy}</p></div>`).join('')}</div>
+  ${sectionHeader('From the Newsroom','#home','Our Stories')}<div class="card-grid">${aboutStories.map(s=>storyCard(s)).join('')}</div></div>`;
+}
+function renderArticle(s){
+  const arr=STORIES.filter(x=>x.section===s.section),prev=arr[s.n-2],next=arr[s.n];
+  const picks=STORIES.filter(x=>x.section===s.section&&x.id!==s.id).slice(0,2);
+  return `<div class="page article-page"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="#home">Home</a> / <a href="#${s.section}">${h(sectionName(s.section))}</a> / <span>Article ${s.n}</span></nav>
+  <div class="article-layout"><article class="article" id="storyArticle">${kicker(s.section)}<h1>${h(s.title)}</h1><p class="story-dek">${h(s.excerpt)}</p><div class="article-meta"><div>${byline(s)}</div><div class="article-tools"><button id="shareArticle" type="button" aria-label="Share this article">↗ Share</button><button id="saveArticle" type="button" aria-pressed="false">☆ Save</button><button id="printArticle" type="button">⎙ Print</button></div></div>
+  <figure class="article-figure">${media('16:9','media-hero')}<figcaption class="figcaption">Lorem ipsum dolor sit amet, consectetur adipiscing elit. IMAGE PLACEHOLDER: 16:9</figcaption></figure>
+  <div class="article-body">${PARAGRAPHS.slice(0,3).map(p=>`<p>${p}</p>`).join('')}<blockquote>“Lorem ipsum dolor sit amet, consectetur adipiscing elit.”</blockquote>${PARAGRAPHS.slice(3).map(p=>`<p>${p}</p>`).join('')}</div>
+  <nav class="article-nav" aria-label="Article navigation">${prev?`<a href="#${prev.id}">← Previous article</a>`:'<span class="disabled" aria-disabled="true">← Previous article</span>'}<a class="back-home" href="#home">Back to Home</a>${next?`<a href="#${next.id}">Next article →</a>`:'<span class="disabled" aria-disabled="true">Next article →</span>'}</nav>
+  </article><aside class="article-side"><div class="sidebar-box"><h3>More ${h(sectionName(s.section))}</h3>${picks.map(x=>`<a href="#${x.id}">${h(x.title)}</a>`).join('')}</div><div class="sidebar-box"><h3>Our Sections</h3>${SECTIONS.map(x=>`<a href="#${x.id}">${h(x.label)}</a>`).join('')}</div>${media('4:3')}</aside></div></div>`;
+}
+function renderSearch(q){
+  const needle=q.trim().toLowerCase();
+  const results=needle?STORIES.filter(s=>[s.title,s.excerpt,sectionName(s.section),s.byline].some(t=>t.toLowerCase().includes(needle))):[];
+  return `<div class="page search-page"><div class="page-intro"><span class="section-eyebrow">The Newsroom Archive</span><h1>Search Stories.</h1><p>Search across the 15 Lorem Ipsum stories in this demonstration site.</p></div><div class="search-header"><h2 style="font:600 31px var(--serif);margin:0">${needle?'Results for “'+h(q)+'”':'Type a search term above'}</h2><span class="search-count">${results.length} ${results.length===1?'story':'stories'}</span></div><div style="margin-top:18px">${results.length?results.map(s=>`<article class="search-result">${linkMedia(s,'1:1','media-squarish')}<div>${kicker(s.section)}<h3 class="result-title"><a href="#${s.id}">${h(s.title)}</a></h3><p>${h(s.excerpt)}</p><div style="margin-top:10px">${byline(s)}</div></div></article>`).join(''):`<div class="empty"><strong>${needle?'Lorem ipsum dolor sit amet.':'Lorem ipsum.'}</strong><span>${needle?'No matching stories in this demo. Try “lorem” or “dolor”.':'Enter a word in the search bar to find sample stories.'}</span></div>`}</div></div>`;
+}
+const app=document.getElementById('app');
+const nav=document.getElementById('primaryNav');
+const menuToggle=document.getElementById('menuToggle');
+const themeToggle=document.getElementById('themeToggle');
+let routeId='home';
+nav.innerHTML=`<a href="#home" data-section="home">Home</a>`+SECTIONS.map(s=>`<a href="#${s.id}" data-section="${s.id}">${h(s.label)}</a>`).join('');
+document.getElementById('footerSections').innerHTML=SECTIONS.map(s=>`<li><a href="#${s.id}">${h(s.label)}</a></li>`).join('');
+document.getElementById('todayDate').textContent=new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}).format(new Date());
+document.getElementById('year').textContent=new Date().getFullYear();
+menuToggle.addEventListener('click',()=>{
+  const open=nav.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded',String(open));
+  menuToggle.setAttribute('aria-label',open?'Close menu':'Open menu');
+  menuToggle.textContent=open?'✕':'☰';
+});
+function closeMenu(){nav.classList.remove('open');menuToggle.setAttribute('aria-expanded','false');menuToggle.setAttribute('aria-label','Open menu');menuToggle.textContent='☰'}
+document.addEventListener('click',event=>{
+  if(!event.target.closest('.nav-row'))closeMenu();
+});
+const themeStore='lorem-newsroom-theme';
+let theme='light';
+try{theme=localStorage.getItem(themeStore)||'light'}catch(error){}
+function applyTheme(value){
+  theme=value==='dark'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',theme);
+  themeToggle.textContent=theme==='dark'?'☀':'☾';
+  themeToggle.title=theme==='dark'?'Switch to light theme':'Switch to dark theme';
+  themeToggle.setAttribute('aria-label',themeToggle.title);
+}
+applyTheme(theme);
+themeToggle.addEventListener('click',()=>{applyTheme(theme==='light'?'dark':'light');try{localStorage.setItem(themeStore,theme)}catch(error){}});
+document.getElementById('searchForm').addEventListener('submit',e=>{
+  e.preventDefault();const q=document.getElementById('searchInput').value.trim();
+  location.hash=q?'search?q='+encodeURIComponent(q):'search';
+  closeMenu();
+});
+function getSaved(){try{return JSON.parse(localStorage.getItem('lorem-newsroom-saved')||'[]')}catch(error){return []}}
+function saveList(items){try{localStorage.setItem('lorem-newsroom-saved',JSON.stringify(items))}catch(error){toast('Could not save preference on this browser.')}}
+let toastTimer;
+function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('shown');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('shown'),2500)}
+function attachArticleActions(story){
+  const share=document.getElementById('shareArticle'),save=document.getElementById('saveArticle'),print=document.getElementById('printArticle');
+  if(!share||!save||!print)return;
+  share.addEventListener('click',async()=>{
+    const url=location.href;
+    try{
+      if(navigator.share){await navigator.share({title:story.title,url});return}
+      if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(url);toast('Article link copied.');return}
+      toast('Copy the URL in your browser to share this article.');
+    }catch(e){if(e.name!=='AbortError')toast('Unable to share this link.');}
+  });
+  function updateSave(){const exists=getSaved().includes(story.id);save.textContent=exists?'★ Saved':'☆ Save';save.setAttribute('aria-pressed',String(exists))}
+  save.addEventListener('click',()=>{const saved=getSaved();const exists=saved.includes(story.id);saveList(exists?saved.filter(id=>id!==story.id):[...saved,story.id]);updateSave();toast(exists?'Removed from saved articles.':'Saved on this browser.')});
+  updateSave();
+  print.addEventListener('click',()=>window.print());
+}
+function render(){
+  const raw=location.hash.slice(1)||'home';
+  const category=SECTIONS.find(s=>s.id===raw);
+  const story=byId(raw);
+  const isSearch=raw==='search'||raw.startsWith('search?');
+  let main='home';
+  if(story){app.innerHTML=renderArticle(story);main=story.section;attachArticleActions(story)}
+  else if(category){app.innerHTML=category.id==='about'?renderAbout():renderCategory(category.id);main=category.id}
+  else if(isSearch){const query=raw.includes('?')?new URLSearchParams(raw.split('?').slice(1).join('?')).get('q')||'':'';document.getElementById('searchInput').value=query;app.innerHTML=renderSearch(query);main='search'}
+  else{app.innerHTML=renderHome();main='home'}
+  routeId=main;
+  document.querySelectorAll('[data-section]').forEach(a=>{
+    const active=a.dataset.section===main;
+    a.classList.toggle('active',active);
+    if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+  });
+  document.title=(story?story.title+' | ':category?category.label+' | ':isSearch?'Search | ':'')+'LOREM IPSUM';
+  closeMenu();
+  app.focus({preventScroll:true});
+  window.scrollTo({top:0,behavior:'instant'});
+  updateReadingProgress();
+}
+const progress=document.getElementById('readingProgress');
+function updateReadingProgress(){
+  if(!byId(location.hash.slice(1))){progress.style.width='0';return}
+  const available=document.documentElement.scrollHeight-window.innerHeight;
+  progress.style.width=(available>0?Math.min(100,Math.max(0,window.scrollY/available*100)):0)+'%';
+}
+window.addEventListener('scroll',updateReadingProgress,{passive:true});
+window.addEventListener('resize',updateReadingProgress);
+window.addEventListener('hashchange',render);
+render();
+</script>
+</body>
+</html>
