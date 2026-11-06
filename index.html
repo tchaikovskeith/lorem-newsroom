@@ -8,16 +8,16 @@
   <title>Ang Layag | Maaasahan. Mapanindigan. Makatotohanan.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --paper:#f8f7f3; --surface:#fff; --ink:#172027; --ink-soft:#394148;
       --muted:#687076; --quiet:#889097; --line:#d7d8d6; --soft:#eeefeb;
       --red:#b62f2a; --red-hover:#8f2220; --deep:#171c20; --white:#fff;
       --ph:#d9d9d9; --ph-ink:#626262; --shadow:0 18px 45px rgba(18,22,26,.06);
-      --serif:'Newsreader',Georgia,'Times New Roman',serif;
-      --sans:'DM Sans',system-ui,sans-serif;
-      --display:'Barlow Condensed',Impact,sans-serif;
+      --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+      --sans:'Source Serif 4',Georgia,serif;
+      --display:'Bebas Neue',Impact,sans-serif;
     }
     [data-theme='dark']{
       --paper:#111619; --surface:#1a2125; --ink:#f3f0e9; --ink-soft:#c9cbca;
@@ -414,6 +414,152 @@
     @media(max-width:650px){.home-secondary{grid-template-columns:1fr}.home-mini{grid-template-columns:120px minmax(0,1fr)}.masthead .brand strong{font-size:clamp(43px,11.5vw,62px)}.masthead .brand .strap{letter-spacing:.035em;font-size:9px}}
     @media(max-width:480px){.home-mini{grid-template-columns:108px minmax(0,1fr)}.home-mini h3{font-size:21px}.tiktok-layout{grid-template-columns:minmax(0,.72fr) minmax(0,1fr);gap:11px}.comic-strip{grid-template-columns:1fr}.comic-panel{min-height:140px}.weather-temp{font-size:43px}.masthead .brand strong{font-size:43px}}
     @media print{.home-extra-grid,.section-extras,.widget-action{display:none!important}}
+
+  
+    /* EDITORIAL TYPE SYSTEM — two fonts, restrained interactions. */
+    body{font-family:var(--serif);font-size:16px;line-height:1.55;font-weight:400}
+    .masthead .container{padding-top:31px;padding-bottom:27px}
+    .masthead .brand strong{
+      font-family:var(--display);font-size:clamp(82px,10vw,135px);
+      font-weight:400;line-height:.84;letter-spacing:.024em
+    }
+    .masthead .brand .strap{
+      font-family:var(--serif);font-size:clamp(10px,1.1vw,13px);
+      letter-spacing:.05em;font-weight:600;margin-top:15px
+    }
+    .mast-side{font-family:var(--display);font-weight:400;font-size:17px;line-height:1.25;letter-spacing:.085em}
+    .utility-label,.demo-chip,.flash-pill,.edition-index,.section-eyebrow,
+    .story-kicker,.rail-title,.view-all,.most-read h3,.promo .promo-label,
+    .sidebar-box h3,.article-tools button,.article-nav a,.breadcrumb,
+    .widget-eyebrow,.widget-action,.advertising-label,.section-side-label,
+    .footer-top h4,.read-more,.poll-button{
+      font-family:var(--display);font-weight:400;letter-spacing:.075em
+    }
+    .utility-label,.demo-chip{font-size:15px}
+    .flash-pill{font-size:17px;padding:4px 11px}
+    .utility-muted{font-family:var(--serif);font-size:12px;letter-spacing:0}
+    .nav-links a{
+      font-family:var(--display);font-size:20px;letter-spacing:.072em;font-weight:400
+    }
+    .nav-links a::after{height:2px;bottom:7px;transform:scaleX(0);transform-origin:left;transition:transform .22s ease;background:var(--gold)}
+    .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+    .nav-links a:hover{color:var(--ink)}
+    .nav-links a.active{color:var(--red)}
+    .news-flash{background:#ece4d2;color:#0b1f3b;border-bottom:1px solid #d1c4a7}
+    .news-flash p{font:500 14px/1.4 var(--serif);letter-spacing:0}
+    .news-flash .flash-pill{background:#0b1f3b;color:#e2c05a}
+    .page-intro h1,.section-header h2{
+      font-family:var(--display);font-weight:400;
+      font-size:clamp(50px,6vw,83px);line-height:.97;letter-spacing:.012em
+    }
+    .home-page .page-intro h1{
+      font-family:var(--serif);font-weight:600;
+      font-size:clamp(36px,5.2vw,65px);line-height:1.05;
+      letter-spacing:-.025em
+    }
+    .section-header h2{font-size:48px}
+    .page-intro p{font-size:16px;line-height:1.5}
+    .story-kicker{font-size:16px;line-height:1.1;margin-bottom:10px}
+    .byline{font:500 12px/1.45 var(--serif);letter-spacing:0}
+    .lead-story h2,.home-main-story h2{font-family:var(--serif);font-weight:600;letter-spacing:-.023em}
+    .home-main-story{
+      background:transparent;border:0;border-top:3px solid var(--gold);
+      padding:16px 0 12px
+    }
+    .home-mini{
+      background:transparent;border:0;border-bottom:1px solid var(--line);
+      padding:12px 0;transition:border-color .22s ease
+    }
+    .home-mini:last-child{border-bottom:0}
+    .home-mini h3{font-family:var(--serif);font-weight:600;letter-spacing:-.016em}
+    .home-main-story .story-dek{font-size:18px;line-height:1.52}
+    .story-image{overflow:hidden;background:#d9d9d9}
+    .story-image .placeholder{
+      transition:transform .28s ease,background-color .28s ease
+    }
+    .placeholder{font-family:var(--display);font-size:17px;font-weight:400;letter-spacing:.045em}
+    .story-card h3,.side-story h3,.front-feature h3,.category-hero h2,
+    .article h1,.result-title,.about-hero h2,.comic-bubble{
+      font-family:var(--serif);font-weight:600
+    }
+    .read-more{
+      font-size:17px;line-height:1.1;border-bottom:1px solid var(--gold);
+      padding-bottom:5px;transition:color .2s ease,border-color .2s ease,gap .2s ease
+    }
+    .widget-heading h2,.widget-heading h3{
+      font-family:var(--display);font-size:43px;font-weight:400;
+      letter-spacing:.018em;line-height:1.02
+    }
+    .newsroom-widget{
+      border:1px solid var(--line);border-top:3px solid var(--gold);
+      box-shadow:none
+    }
+    .widget-eyebrow{font-size:16px;line-height:1.1}
+    .widget-intro{font-size:15px}
+    .widget-action{font-size:18px;padding:9px 14px;transition:background-color .2s ease,color .2s ease}
+    .most-read-item b,.brief-no,.principle span{font-family:var(--display);font-weight:400}
+    .footer-brand{font-family:var(--display);font-weight:400;font-size:57px;letter-spacing:.025em}
+    .footer-top p,.footer-top li a,.footer-bottom{font-family:var(--serif)}
+    .footer-top h4{font-size:19px}
+    .site-footer .footer-brand em{color:var(--gold)}
+    .article-body{font-size:20px;line-height:1.7}
+    .article-body p:first-child::first-letter{font-family:var(--display);font-size:86px;font-weight:400}
+    .article-tools button{font-size:17px;font-weight:400;letter-spacing:.04em}
+    .search-input,.weather-select{font-family:var(--serif);font-size:14px}
+    .poll-option,.comic-bubble{font-family:var(--serif)}
+    .poll-button{font-size:20px;font-weight:400}
+    .comic-num{font-family:var(--display);font-size:17px;font-weight:400}
+    .score-demo{font-family:var(--serif)}
+    .ad-rectangle{font-family:var(--display);font-size:24px}
+    :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+    @media(hover:hover) and (pointer:fine){
+      .home-mini:hover{border-color:var(--gold)}
+      .story-image:hover .placeholder,
+      .home-main-story:hover .story-image .placeholder,
+      .home-mini:hover .story-image .placeholder,
+      .front-feature:hover .story-image .placeholder{
+        transform:scale(1.018);background:#c8c8c8
+      }
+      .lead-story h2 a:hover,.home-main-story h2 a:hover,
+      .home-mini h3 a:hover,.story-card h3 a:hover,.side-story h3 a:hover,
+      .front-feature h3 a:hover,.category-hero h2 a:hover,
+      .result-title a:hover{
+        color:var(--ink);text-decoration:underline;
+        text-decoration-color:var(--gold);text-decoration-thickness:2px;
+        text-underline-offset:5px
+      }
+      .read-more:hover{color:var(--red-hover);gap:12px;border-bottom-color:var(--red)}
+      .front-feature:hover{border-color:var(--gold)}
+      .icon-button:hover,.article-tools button:hover{
+        border-color:var(--gold);background:var(--soft)
+      }
+      .widget-action:hover{background:var(--gold);border-color:var(--gold);color:#0b1f3b}
+      .poll-option:hover{border-color:var(--gold)}
+      .footer-top li a:hover{color:var(--gold)}
+    }
+    @media(max-width:900px){
+      .masthead .brand strong{font-size:clamp(65px,12vw,99px)}
+      .nav-links a{font-size:21px}
+      .nav-links a::after{display:none}
+      .page-intro h1{font-size:clamp(51px,8vw,75px)}
+    }
+    @media(max-width:650px){
+      .masthead .brand strong{font-size:clamp(62px,15vw,85px)}
+      .masthead .brand .strap{font-size:10px}
+      .home-page .page-intro h1{font-size:clamp(34px,8.7vw,48px)}
+      .page-intro h1{font-size:clamp(53px,12vw,72px)}
+      .section-header h2{font-size:44px}
+      .widget-heading h2,.widget-heading h3{font-size:38px}
+      .story-kicker{font-size:15px}
+      .home-mini h3{font-size:22px}
+    }
+    @media(max-width:390px){
+      .masthead .brand strong{font-size:clamp(54px,14vw,65px)}
+      .masthead .brand .strap{font-size:9px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .story-image .placeholder,.nav-links a::after,.home-mini,.read-more{transition:none!important}
+    }
 
   </style>
 </head>
