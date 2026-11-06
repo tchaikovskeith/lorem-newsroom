@@ -1,6 +1,6 @@
 # Ang Layag — Maaasahan. Mapanindigan. Makatotohanan.
 
-**Ang Layag** is a mobile-responsive Filipino newsroom mock-up for GitHub Pages. Navy (#0b1f3b and #0f4c81), metallic gold (#d4af37), and off-white (#f3efe6) define the design. It retains 15 Lorem Ipsum demonstration stories and gray photo placeholders from the supplied wireframe.
+**Ang Layag** is a mobile-responsive Filipino newsroom mock-up for GitHub Pages. Fern (#488247) and Petal Rogue (#f2678e), with off-white surfaces, define the design. Hanken Grotesk is used for headlines and categories; Constantia (with Georgia fallback) is used for snippets, credits, and body copy. It retains 15 Lorem Ipsum demonstration stories and gray photo placeholders from the supplied wireframe.
 
 ## Pages and content
 
@@ -11,6 +11,31 @@
 - **Pampalakasan** — three articles and an embed-ready YouTube play-by-play video slot.
 - **Tungkol sa Amin** — the publication's three stated values and example editorial information.
 - All article cards include **Basahin pa**, leading to a full story view. Search, share, save, print, dark mode, and mobile navigation remain.
+
+## Writer photographs and bionotes
+
+Individual article pages now display a **Tungkol sa Manunulat** card after the article body, with a square photo, the writer's name, role, and short bionote. **Main Editorial** (`editorial-1`) is the sole exception: it is credited to **Lupon ng Patnugutan, Ang Layag** without a personal writer card.
+
+Edit `const WRITER_PROFILES = {` in `index.html` and add one entry for each article:
+
+```js
+const WRITER_PROFILES = {
+  'news-1': {
+    name: 'Pangalan ng Manunulat',
+    role: 'Mamamahayag / Balita',
+    photo: 'assets/writers/pangalan.jpg',
+    bio: 'Maikling bionote ng manunulat. Ilagay ang larangan, mga interes, at karanasan.'
+  },
+  'sports-1': {
+    name: 'Pangalan ng Sports Writer',
+    role: 'Manunulat / Pampalakasan',
+    photo: 'https://example.com/portrait.jpg',
+    bio: 'Maikling bionote para sa sports writer.'
+  }
+};
+```
+
+Use IDs `news-1` through `news-3`, `editorial-2` and `editorial-3`, `feature-1` through `feature-3`, and `sports-1` through `sports-3`. Leave an entry out to retain the clearly labeled writer-photo and bionote placeholders. Photo paths can be relative to the repository root (such as `assets/writers/name.jpg`) or secure `https://` URLs. Don't publish a writer's photo or personal bionote without permission.
 
 ## Add actual TikTok, live X posts, game footage and a public poll
 
