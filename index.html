@@ -566,6 +566,44 @@
       .story-image .placeholder,.nav-links a::after,.home-mini,.read-more{transition:none!important}
     }
 
+
+    /* Individual article author profile — calm newsroom credit treatment. */
+    .writer-profile{
+      display:grid;grid-template-columns:112px minmax(0,1fr);
+      gap:22px;align-items:start;margin:30px 0 24px;padding:24px 0;
+      border-top:2px solid var(--red);border-bottom:1px solid var(--line)
+    }
+    .writer-photo{width:112px;aspect-ratio:1;background:#d9d9d9;overflow:hidden}
+    .writer-photo img{display:block;width:100%;height:100%;object-fit:cover}
+    .writer-photo-placeholder{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:7px;width:100%;height:100%;color:#626262;text-align:center
+    }
+    .writer-photo-placeholder span{font:700 19px/1 var(--sans)}
+    .writer-photo-placeholder small{
+      max-width:86px;font:700 9px/1.4 var(--sans);letter-spacing:.05em
+    }
+    .writer-eyebrow{
+      display:block;color:var(--red);font:800 11px/1.35 var(--sans);
+      letter-spacing:.1em
+    }
+    .writer-copy h2{
+      margin:6px 0 3px;color:var(--ink);
+      font:800 23px/1.2 var(--sans);letter-spacing:-.025em
+    }
+    .writer-role{margin:0 0 10px;color:var(--muted);font:400 13px/1.5 var(--serif)}
+    .writer-bio{margin:0;max-width:630px;color:var(--ink-soft);font:400 15px/1.62 var(--serif)}
+    @media(max-width:480px){
+      .writer-profile{grid-template-columns:82px minmax(0,1fr);gap:14px;padding:20px 0}
+      .writer-photo{width:82px}
+      .writer-photo-placeholder small{font-size:7px}
+      .writer-copy h2{font-size:20px}
+      .writer-bio{font-size:14px}
+    }
+    @media print{
+      .writer-profile{break-inside:avoid;grid-template-columns:90px minmax(0,1fr)}
+      .writer-photo{width:90px}
+    }
   </style>
 </head>
 <body>
@@ -690,7 +728,51 @@ const h=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','
 const media=(ratio='4:3',cls='media-portrait')=>`<div class="story-image ${cls}" aria-label="Larawang placeholder ${h(ratio)}"><div class="placeholder"><span>${h(ratio)}</span></div></div>`;
 const linkMedia=(story,ratio='4:3',cls='media-portrait')=>`<a href="#${story.id}" aria-label="Basahin ang ${h(story.title)}">${media(ratio,cls)}</a>`;
 const kicker=section=>`<span class="story-kicker">${h(sectionName(section))} <span aria-hidden="true">/</span> ANG LAYAG</span>`;
-const byline=s=>`<div class="byline">Ni <strong>${h(s.byline)}</strong><span class="dot">•</span>${h(s.date)}<span class="dot">•</span>${s.reading} min. basahin</div>`;
+/* Individual article writer credits. Replace each example with the real author's
+   name, role, 1:1 photo path/URL, and short bionote.
+   Example:
+   'news-1': {
+     name: 'Pangalan ng Manunulat',
+     role: 'Mamamahayag / Balita',
+     photo: 'assets/writers/pangalan.jpg',
+     bio: 'Maikling bionote ng manunulat, dalawa o tatlong pangungusap.'
+   }
+   Main editorial (editorial-1) intentionally has no personal writer profile. */
+const WRITER_PROFILES = {
+  // Add one entry per article ID, e.g. 'news-1', 'feature-1', 'sports-1'.
+};
+const writerDetails = story => ({
+  name: story.byline,
+  role: 'Manunulat • ' + sectionName(story.section),
+  photo: '',
+  bio: 'Ilagay dito ang maikling bionote ng manunulat: ang kaniyang larangan, mga interes, at karanasan sa pamamahayag.',
+  ...(WRITER_PROFILES[story.id] || {})
+});
+const writerPhotoUrl = raw => {
+  const url = String(raw || '').trim();
+  if(!url) return '';
+  if(/^(?:\.\/|assets\/|https:\/\/)/i.test(url)) return url;
+  return '';
+};
+function renderWriterProfile(story){
+  if(story.id === 'editorial-1') return '';
+  const writer = writerDetails(story);
+  const photoUrl = writerPhotoUrl(writer.photo);
+  const picture = photoUrl
+    ? '<img src="' + h(photoUrl) + '" alt="Larawan ni ' + h(writer.name) + '" loading="lazy" decoding="async">'
+    : '<div class="writer-photo-placeholder"><span>1:1</span><small>LARAWAN NG MANUNULAT</small></div>';
+  return '<section class="writer-profile" aria-labelledby="writer-profile-name">' +
+    '<div class="writer-photo">' + picture + '</div>' +
+    '<div class="writer-copy">' +
+    '<span class="writer-eyebrow">TUNGKOL SA MANUNULAT</span>' +
+    '<h2 id="writer-profile-name">' + h(writer.name) + '</h2>' +
+    '<p class="writer-role">' + h(writer.role) + '</p>' +
+    '<p class="writer-bio">' + h(writer.bio) + '</p>' +
+    '</div></section>';
+}
+const byline=s=>s.id === 'editorial-1'
+  ? '<div class="byline"><strong>Lupon ng Patnugutan, Ang Layag</strong><span class="dot">•</span>' + h(s.date) + '<span class="dot">•</span>' + s.reading + ' min. basahin</div>'
+  : '<div class="byline">Ni <strong>' + h(writerDetails(s).name) + '</strong><span class="dot">•</span>' + h(s.date) + '<span class="dot">•</span>' + s.reading + ' min. basahin</div>';
 const readMore=s=>`<a href="#${s.id}" class="read-more">Basahin pa <span aria-hidden="true">↗</span></a>`;
 const storyCard=(s,opts={})=>`<article class="story-card">${linkMedia(s,opts.ratio||'4:3',opts.mediaClass||'media-portrait')}${kicker(s.section)}<h3><a href="#${s.id}">${h(s.title)}</a></h3>${opts.dek===false?'':`<p class="story-dek">${h(s.excerpt)}</p>`}${byline(s)}${readMore(s)}</article>`;
 const sectionHeader=(name,href,subtitle='MULA SA MESA')=>`<div class="section-header"><div><span class="section-eyebrow">${h(subtitle)}</span><h2>${h(name)}</h2></div><a class="view-all" href="${href}">Tingnan lahat <span aria-hidden="true">↗</span></a></div>`;
@@ -731,7 +813,7 @@ function renderAbout(){
 }
 function renderArticle(s){
  const arr=STORIES.filter(x=>x.section===s.section),prev=arr[s.n-2],next=arr[s.n],picks=STORIES.filter(x=>x.section===s.section&&x.id!==s.id).slice(0,2);
- return `<div class="page article-page"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="#home">Home</a> / <a href="#${s.section}">${h(sectionName(s.section))}</a> / <span>Artikulo ${s.n}</span></nav><div class="article-layout"><article class="article" id="storyArticle">${kicker(s.section)}<h1>${h(s.title)}</h1><p class="story-dek">${h(s.excerpt)}</p><div class="article-meta"><div>${byline(s)}</div><div class="article-tools"><button id="shareArticle" type="button" aria-label="Ibahagi">↗ Ibahagi</button><button id="saveArticle" type="button" aria-pressed="false">☆ I-save</button><button id="printArticle" type="button">⎙ I-print</button></div></div><figure class="article-figure">${media('16:9','media-hero')}<figcaption class="figcaption">Larawang placeholder 16:9 — palitan kapag mayroon nang larawang pangbalita.</figcaption></figure><div class="article-body">${PARAGRAPHS.slice(0,3).map(p=>`<p>${p}</p>`).join('')}<blockquote>“Lorem ipsum dolor sit amet, consectetur adipiscing elit.”</blockquote>${PARAGRAPHS.slice(3).map(p=>`<p>${p}</p>`).join('')}</div><div class="page-kicker-line"><span class="section-eyebrow">MULA SA MESA</span><p class="widget-meta">Ang tekstong ito ay demonstration content, hindi aktuwal na ulat.</p></div><nav class="article-nav" aria-label="Nabigasyon ng artikulo">${prev?`<a href="#${prev.id}">← Naunang artikulo</a>`:'<span class="disabled" aria-disabled="true">← Naunang artikulo</span>'}<a class="back-home" href="#home">Bumalik sa Home</a>${next?`<a href="#${next.id}">Susunod na artikulo →</a>`:'<span class="disabled" aria-disabled="true">Susunod na artikulo →</span>'}</nav></article><aside class="article-side"><div class="sidebar-box"><h3>Basahin pa sa ${h(sectionName(s.section))}</h3>${picks.map(x=>`<a href="#${x.id}">${h(x.title)} ↗</a>`).join('')}</div><div class="sidebar-box"><h3>Mga Seksyon</h3>${SECTIONS.map(x=>`<a href="#${x.id}">${h(x.label)}</a>`).join('')}</div>${media('4:3')}</aside></div></div>`;
+ return `<div class="page article-page"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="#home">Home</a> / <a href="#${s.section}">${h(sectionName(s.section))}</a> / <span>Artikulo ${s.n}</span></nav><div class="article-layout"><article class="article" id="storyArticle">${kicker(s.section)}<h1>${h(s.title)}</h1><p class="story-dek">${h(s.excerpt)}</p><div class="article-meta"><div>${byline(s)}</div><div class="article-tools"><button id="shareArticle" type="button" aria-label="Ibahagi">↗ Ibahagi</button><button id="saveArticle" type="button" aria-pressed="false">☆ I-save</button><button id="printArticle" type="button">⎙ I-print</button></div></div><figure class="article-figure">${media('16:9','media-hero')}<figcaption class="figcaption">Larawang placeholder 16:9 — palitan kapag mayroon nang larawang pangbalita.</figcaption></figure><div class="article-body">${PARAGRAPHS.slice(0,3).map(p=>`<p>${p}</p>`).join('')}<blockquote>“Lorem ipsum dolor sit amet, consectetur adipiscing elit.”</blockquote>${PARAGRAPHS.slice(3).map(p=>`<p>${p}</p>`).join('')}</div>${renderWriterProfile(s)}<div class="page-kicker-line"><span class="section-eyebrow">MULA SA MESA</span><p class="widget-meta">Ang tekstong ito ay demonstration content, hindi aktuwal na ulat.</p></div><nav class="article-nav" aria-label="Nabigasyon ng artikulo">${prev?`<a href="#${prev.id}">← Naunang artikulo</a>`:'<span class="disabled" aria-disabled="true">← Naunang artikulo</span>'}<a class="back-home" href="#home">Bumalik sa Home</a>${next?`<a href="#${next.id}">Susunod na artikulo →</a>`:'<span class="disabled" aria-disabled="true">Susunod na artikulo →</span>'}</nav></article><aside class="article-side"><div class="sidebar-box"><h3>Basahin pa sa ${h(sectionName(s.section))}</h3>${picks.map(x=>`<a href="#${x.id}">${h(x.title)} ↗</a>`).join('')}</div><div class="sidebar-box"><h3>Mga Seksyon</h3>${SECTIONS.map(x=>`<a href="#${x.id}">${h(x.label)}</a>`).join('')}</div>${media('4:3')}</aside></div></div>`;
 }
 function renderSearch(q){
  const needle=q.trim().toLowerCase(),results=needle?STORIES.filter(s=>[s.title,s.excerpt,sectionName(s.section),s.byline].some(t=>t.toLowerCase().includes(needle))):[];
