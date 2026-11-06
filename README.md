@@ -1,44 +1,45 @@
-# LOREM IPSUM — Student Newsroom Mock-up
+# Ang Layag — Maaasahan. Mapanindigan. Makatotohanan.
 
-A polished, responsive, **static newsroom website** built from the user-provided `lorem-news-site.zip` wireframe. The layout retains **Home, News, Editorial, Feature, Sports, About Us** and **three clickable article pages per section** (15 total), while adding a newsroom-style masthead, lead-story hierarchy, latest headlines, article reading layouts, mobile menu, search, a theme toggle, bookmarking, sharing, printing, and article reading progress.
+**Ang Layag** is a mobile-responsive Filipino newsroom mock-up for GitHub Pages. Navy (#0b1f3b and #0f4c81), metallic gold (#d4af37), and off-white (#f3efe6) define the design. It retains 15 Lorem Ipsum demonstration stories and gray photo placeholders from the supplied wireframe.
 
-## Preview / run
+## Pages and content
 
-No installation or build required. Open `index.html` in a browser or serve the directory using:
+- **Home** — only four featured stories: the main Balita, first Tampok, main Pananaw, and main Pampalakasan; plus regional weather and a TikTok feature.
+- **Balita** — three articles, an optional embedded public X timeline, and a clearly labeled ad placeholder.
+- **Pananaw** — three articles, a sample local-browser poll, and an original three-panel demo comic.
+- **Tampok** — three articles, **Alam Mo Ba?**, and **Sa Araw na Ito** (historical story intentionally awaits editorial verification).
+- **Pampalakasan** — three articles and an embed-ready YouTube play-by-play video slot.
+- **Tungkol sa Amin** — the publication's three stated values and example editorial information.
+- All article cards include **Basahin pa**, leading to a full story view. Search, share, save, print, dark mode, and mobile navigation remain.
 
-```bash
-python3 -m http.server 8000
+## Add actual TikTok, live X posts, game footage and a public poll
+
+Find `const SITE_CONFIG = {` inside `index.html` and enter the public links:
+
+```js
+const SITE_CONFIG = {
+  tiktokVideoUrl:'', // public TikTok post, e.g. https://www.tiktok.com/@account/video/1234567890123456789
+  xProfileUrl:'',    // public X profile, e.g. https://x.com/account
+  sportsVideoUrl:'', // YouTube watch, youtu.be or Shorts URL of game footage
+  publicPollUrl:''   // Google Forms URL for actual public polling
+};
 ```
 
-Then visit `http://localhost:8000`.
+The website does **not** invent a creator's TikTok, an X account, or game footage. These integrations remain clearly labeled placeholders until configured. Once URLs are supplied, TikTok uses its official embedded player, X uses an embedded public profile timeline, the YouTube clip plays within Pampalakasan, and public voting links to the selected form.
 
-## Content is placeholder-only
+**Poll limitation:** Without a Google Forms URL, voting is only a local `localStorage` demonstration. It does not aggregate or publish a public vote total. Publish a proper Google Form to accept actual responses.
 
-All articles and descriptions use *Lorem ipsum* filler. Image boxes are gray (`#D9D9D9`) and carry aspect-ratio labels. This site is a **design mock-up**, not a source of published news. Functional navigation, search, bookmarks, printing, and theme controls are for demonstration. No real publication branding, editorial reporting, or subscription backend is provided.
+## Weather, facts and ads
 
-## Editing articles
+- The Home weather selector fetches current weather-model data from [Open-Meteo](https://open-meteo.com/en/docs) without a key; default city is San Fernando, La Union, with other Region I selections. It is **not** an official PAGASA warning.
+- **Sa Araw na Ito** displays today's Philippine date but requires a fact-checked historical entry and source before publication.
+- **Komiks** uses original demonstration dialogue. The ad area is a 300×250 sample, not a real sponsor.
+- Headlines, text, dates, bylines, and photos are demonstrations. Replace them before treating the site as a genuine publication.
 
-Open `index.html`, then find `const ARTICLE_DATA =`. Each section (`news`, `editorial`, `feature`, `sports`, `about`) contains three `[headline, excerpt]` pairs. The router builds pages for:
+## Editing and publishing
 
-- `#home`
-- `#news`, `#editorial`, `#feature`, `#sports`, `#about`
-- `#news-1`, `#news-2`, `#news-3` (and the equivalent for all sections)
-- `#search?q=lorem`
+The source is a static `index.html` with no Python server, package manager or build step. Edit `ARTICLE_DATA` for headings and excerpts and `PARAGRAPHS` for demo body text. When preparing actual publication stories, give each article its own verified reporting, references, writer credits, images, publication date and full body.
 
-The `PARAGRAPHS` array contains demonstration article copy. Replace placeholder editorial content with approved materials before any public-news use. For each image, replace the `<div class="placeholder">` representation in the `media()` helper with appropriately licensed photos, with corresponding alt text and credit, as part of a future production revision.
+For GitHub Pages: **Settings → Pages → Deploy from a branch → main → /(root) → Save**. Changes committed to `main/index.html` deploy once GitHub Pages is enabled. The repository's `.nojekyll` can stay.
 
-## Deploy to a NEW GitHub Pages repository
-
-1. In GitHub, select **New repository**, name it `lorem-newsroom`, set visibility to **Public**, and create it without auto-generating a README (this ZIP already contains one).
-2. Choose **Add file → Upload files** and upload the **contents of this folder**, including `index.html`, `.nojekyll`, and `README.md` (do not upload the enclosing folder itself). Commit.
-3. Open **Settings → Pages → Build and deployment**, choose **Deploy from a branch**, **main**, **/(root)**, and **Save**.
-4. Once GitHub Pages deployment completes, your URL should be `https://tchaikovskeith.github.io/lorem-newsroom/` (provided the repository is created under `tchaikovskeith` with that exact name).
-
-This project is independent of `tchaikovskeith/keith-layson` and does not alter your TLN Training Quest site.
-
-## Tech
-
-- HTML5, CSS3, vanilla JavaScript — no build tools or frameworks.
-- Google Fonts are optional; system fallbacks are supplied.
-- Stored bookmark and theme preferences use browser localStorage only.
-- Fully responsive down to a 390px viewport, with accessible labels and keyboard focus states.
+Reference documentation: [TikTok Embed Player](https://developers.tiktok.com/docs/en/embed-player), [X embedded timelines](https://help.x.com/en/using-x/embed-x-feed).
