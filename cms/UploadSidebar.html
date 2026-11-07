@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{--fern:#488247;--petal:#f2678e;--ink:#213a2b;--muted:#5b6c5f;--line:#dbe6d9;--paper:#f8faf6}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 Arial,sans-serif}
+    .wrap{padding:20px}.eyebrow{text-transform:uppercase;color:var(--fern);font-weight:bold;letter-spacing:.14em;font-size:10px}
+    h1{font-size:22px;margin:5px 0}.sub{color:var(--muted);font-size:12px;margin:0 0 18px}
+    label{font-size:12px;font-weight:bold;display:block;margin:13px 0 5px}
+    select,input[type=file],input[type=text],textarea{width:100%;background:white;border:1px solid #bdcfbf;border-radius:5px;padding:10px;color:var(--ink);font:inherit}
+    textarea{min-height:64px;resize:vertical}select:focus,input:focus,textarea:focus{outline:2px solid var(--petal);outline-offset:1px}
+    .hint{font-size:11px;color:var(--muted);margin-top:6px}.upload{border:2px dashed #91b294;background:#fff;padding:14px;border-radius:7px}
+    .preview{display:none;margin:12px 0;background:#eef3e8;padding:9px;border-radius:6px}.preview img{max-width:100%;max-height:160px;object-fit:contain;display:block;margin:auto}
+    .btn{margin-top:17px;width:100%;background:var(--fern);border:0;color:#fff;padding:12px;border-radius:5px;font-size:14px;font-weight:bold;cursor:pointer}
+    .btn:hover{background:#30683a}.btn:disabled{opacity:.5;cursor:wait}.status{padding:10px;margin-top:12px;background:#eaf1e8;white-space:pre-line;border-left:3px solid var(--fern);font-size:12px;display:none}.status.error{border-color:#b5374e;background:#fff0f2}
+    .note{margin-top:18px;padding-top:12px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+  </style>
+</head>
+<body><div class="wrap">
+  <div class="eyebrow">ANG LAYAG / EDITORIAL DESK</div>
+  <h1>Upload a photograph</h1>
+  <p class="sub">Files are optimized as JPEG, saved to your private Drive folder and linked to the selected record.</p>
+  <form id="form">
+    <label for="targetType">Photo for</label>
+    <select id="targetType" required><option value="Article">Article cover photo</option><option value="Writer">Writer portrait</option></select>
+    <label for="targetId">Choose an article or writer</label>
+    <select id="targetId" required><option value="">Loading records…</option></select>
+    <label for="file">Select image</label>
+    <div class="upload"><input type="file" id="file" accept="image/png,image/jpeg,image/webp" required><div class="hint">JPG, PNG, WebP · up to 8 MB original. Automatically resized for web.</div></div>
+    <div class="preview" id="preview"><img id="previewImg" alt="Preview of photo to upload"></div>
+    <label for="caption">Caption</label><textarea id="caption" placeholder="Describe the photograph and context"></textarea>
+    <label for="credit">Photo credit or source *</label><input type="text" id="credit" required maxlength="240" placeholder="e.g., Photo by Ang Layag / Photographer name">
+    <label for="alt">Image description for accessibility *</label><textarea id="alt" required maxlength="240" placeholder="What is visibly shown in the picture?"></textarea>
+    <button id="submit" class="btn" type="submit">Upload to private Drive</button>
+  </form>
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+  <p class="note">After checking permissions and caption accuracy, set this photo's Media Library Status to <strong>Published</strong>. It becomes publicly accessible only when linked to a published article.</p>
+</div>
+<script>
+(function(){
+  'use strict';
+  let choices={articles:[],writers:[]};
+  const el=id=>document.getElementById(id);
+  const status=(text,error=false)=>{const e=el('status');e.style.display='block';e.className='status'+(error?' error':'');e.textContent=text;};
+  const update=()=>{
+    const isWriter=el('targetType').value==='Writer';
+    const items=isWriter?choices.writers:choices.articles;
+    const select=el('targetId');select.replaceChildren();
+    const empty=document.createElement('option');empty.value='';empty.textContent='Choose a record…';select.appendChild(empty);
+    items.forEach(item=>{const o=document.createElement('option');o.value=item.id;o.textContent=item.id+' — '+(isWriter?item.name:item.title);select.appendChild(o)});
+  };
+  google.script.run.withSuccessHandler(data=>{choices=data;update();})
+    .withFailureHandler(err=>status('Could not load records: '+err.message,true)).getEditorChoices();
+  el('targetType').addEventListener('change',update);
+  el('file').addEventListener('change',()=>{const f=el('file').files[0],p=el('preview');if(!f){p.style.display='none';return;}const u=URL.createObjectURL(f);el('previewImg').src=u;el('previewImg').onload=()=>URL.revokeObjectURL(u);p.style.display='block';});
+  function compress(file){
+    return new Promise((resolve,reject)=>{
+      if(file.size>8*1024*1024)return reject(Error('Original image exceeds 8 MB.'));
+      if(!['image/png','image/jpeg','image/webp'].includes(file.type))return reject(Error('Select a JPG, PNG or WebP image.'));
+      const img=new Image();const url=URL.createObjectURL(file);
+      img.onload=()=>{
+        URL.revokeObjectURL(url);const factor=Math.min(1,1200/Math.max(img.width,img.height));
+        let w=Math.max(1,Math.floor(img.width*factor)),h=Math.max(1,Math.floor(img.height*factor));
+        const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+        const ctx=canvas.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,w,h);ctx.drawImage(img,0,0,w,h);
+        let encoded='';for(const q of [.83,.74,.64,.54,.44]){encoded=canvas.toDataURL('image/jpeg',q).split(',')[1];if(encoded.length*.75<800000)break;}
+        if(encoded.length*.75>850000)return reject(Error('Image could not be compressed enough. Choose a smaller photograph.'));
+        resolve(encoded);
+      };
+      img.onerror=()=>{URL.revokeObjectURL(url);reject(Error('Unable to read image.'))};img.src=url;
+    });
+  }
+  el('form').addEventListener('submit',async e=>{
+    e.preventDefault();const btn=el('submit'),file=el('file').files[0];
+    if(!file||!el('targetId').value){status('Choose a record and photograph.',true);return;}
+    btn.disabled=true;status('Optimizing the photograph…');
+    try{
+      const base64=await compress(file);
+      status('Uploading privately to Google Drive…');
+      google.script.run.withSuccessHandler(result=>{
+        btn.disabled=false;
+        status('Uploaded! Media ID: '+result.mediaId+'\n'+result.note);
+        el('file').value='';el('preview').style.display='none';
+      }).withFailureHandler(err=>{btn.disabled=false;status(err.message||String(err),true);})
+        .uploadPhoto({targetType:el('targetType').value,targetId:el('targetId').value,
+          mime:'image/jpeg',base64,caption:el('caption').value,credit:el('credit').value,alt:el('alt').value});
+    }catch(err){btn.disabled=false;status(err.message||String(err),true)}
+  });
+})();
+</script>
+</body></html>
