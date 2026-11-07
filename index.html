@@ -678,7 +678,8 @@ const SITE_CONFIG = {
   tiktokVideoUrl:'',       // https://www.tiktok.com/@account/video/1234567890123456789
   xProfileUrl:'',          // https://x.com/account  (pampublikong profile)
   sportsVideoUrl:'',       // YouTube link para sa play-by-play game footage
-  publicPollUrl:''         // Pampublikong Google Forms poll URL, kung handa na
+  publicPollUrl:'',        // Pampublikong Google Forms poll URL, kung handa na
+  editorialFeedUrl:''     // Published-only Apps Script /exec URL; leave blank until deployed
 };
 const OPENING = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 const PARAGRAPHS = [
@@ -717,7 +718,7 @@ const ARTICLE_DATA = {
     ['Itaque earum rerum hic tenetur a sapiente','Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.']
   ]
 };
-const STORIES = Object.entries(ARTICLE_DATA).flatMap(([section,rows]) => rows.map(([title,excerpt],i)=>({
+let STORIES = Object.entries(ARTICLE_DATA).flatMap(([section,rows]) => rows.map(([title,excerpt],i)=>({
   id:`${section}-${i+1}`,section,n:i+1,title,excerpt,
   byline:'Lorem Ipsum',date:'Month 00, 0000',reading:i===0?5:i===1?4:3
 })));
@@ -914,5 +915,6 @@ window.addEventListener('resize',updateReadingProgress);
 window.addEventListener('hashchange',render);
 render();
 </script>
+<script src="cms/site-feed.js" defer></script>
 </body>
 </html>
